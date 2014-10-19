@@ -1,0 +1,12 @@
+#IDEA Files
+target
+.idea
+*.iml
+out
+#Eclipse files
+.classpath
+.project
+.settings
+
+nbactions.xml
+.DS_Store

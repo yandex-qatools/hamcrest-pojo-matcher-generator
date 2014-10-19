@@ -1,0 +1,12 @@
+package ${type.packageName()};
+
+public final class ${utils.withGeneratedSuffix(${type.name()})} {
+    /**
+     * This class could not be instantiated
+     */
+    private ${utils.withGeneratedSuffix(${type.name()})}() {}
+
+    #foreach($field in ${type.fields()})
+        #parse("templates/method.vm")
+    #end
+}
