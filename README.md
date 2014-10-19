@@ -41,7 +41,7 @@ Beans `MUST` have getters with named `get[Field]()` to generate working matchers
 #### See generated matchers
 
 You can find result in `${project.build.directory}/generated-sources/annotations/*`.  
-For each class with such fields will be generated class `*Matchers` looks like: 
+For each class with such fields will be generated class `*Matchers` that looks like: 
 
 ```java
 /**
