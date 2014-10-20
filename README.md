@@ -2,7 +2,7 @@
 
 Inspired by lot of dummy work to create matchers for fields in auto-generated beans. 
 
-Generates [Hamcrest's](http://hamcrest.org/JavaHamcrest/) [Feature Matchers](http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/FeatureMatcher.html) 
+Generates [Hamcrest](http://hamcrest.org/JavaHamcrest/)'s [Feature Matchers](http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/FeatureMatcher.html) 
 for every field annotated with `@Expose` annotation (`com.google.gson.annotations.Expose`) by [Gson](https://code.google.com/p/google-gson/) 
 
 Useful with auto-generated beans with [jsonschema2pojo](https://github.com/joelittlejohn/jsonschema2pojo) 
@@ -14,7 +14,7 @@ Useful with auto-generated beans with [jsonschema2pojo](https://github.com/joeli
 <dependency>
     <groupId>ru.yandex.qatools.processors</groupId>
     <artifactId>feature-matcher-generator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 </dependency>
 ```
 
