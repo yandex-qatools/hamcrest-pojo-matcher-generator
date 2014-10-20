@@ -3,8 +3,8 @@ package ru.yandex.qatools.processors.matcher.gen.processing;
 import ch.lambdaj.function.convert.Converter;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import ru.yandex.qatools.processors.matcher.gen.util.GenUtils;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
+import ru.yandex.qatools.processors.matcher.gen.util.GenUtils;
 
 import javax.annotation.processing.Filer;
 import javax.tools.JavaFileObject;
@@ -12,8 +12,7 @@ import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.google.common.base.Joiner.on;
-import static com.google.common.io.CharStreams.asWriter;
+import static ch.lambdaj.collection.LambdaCollections.with;
 import static java.lang.String.format;
 
 /**
@@ -50,8 +49,8 @@ public class ClassDescriptionProcessing implements Converter<ClassDescription, V
 
         try {
             JavaFileObject jfo = filer
-                    .createSourceFile(new GenUtils().withGeneratedSuffix(on(".")
-                            .join(from.packageName(), from.name())));
+                    .createSourceFile(new GenUtils().withGeneratedSuffix(
+                            with(from.packageName(), from.name()).join(".")));
 
             try (Writer writer = jfo.openWriter()) {
                 engine.getTemplate(CLASS_TEMPLATE).merge(context, writer);
