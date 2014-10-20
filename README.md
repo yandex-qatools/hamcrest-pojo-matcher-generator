@@ -9,7 +9,7 @@ Useful with auto-generated beans with [jsonschema2pojo](https://github.com/joeli
 
 ### Usage Guide
 
-#### Add dependency from Maven Central
+#### 1. Add dependency from Maven Central
 ```xml 
 <dependency>
     <groupId>ru.yandex.qatools.processors</groupId>
@@ -18,7 +18,7 @@ Useful with auto-generated beans with [jsonschema2pojo](https://github.com/joeli
 </dependency>
 ```
 
-#### Generate (or write) beans
+#### 2. Generate (or write) beans
 
 ```java 
 public class Owner {
@@ -34,11 +34,16 @@ public class Owner {
     public String getUid() {
         return uid;
     }
+}
 ``` 
 
 Beans `MUST` have getters with named `get[Field]()` to generate working matchers
 
-#### See generated matchers
+#### 3. Compile
+
+Run `mvn clean compile`
+
+#### 4. See generated matchers
 
 You can find result in `${project.build.directory}/generated-sources/annotations/*`.  
 For each class with such fields will be generated class `*Matchers` that looks like: 
