@@ -1,5 +1,9 @@
 package ru.yandex.qatools.processors.matcher.gen.util;
 
+import java.util.logging.Logger;
+
+import static java.lang.String.format;
+
 /**
  * User: lanwen
  * Date: 18.09.14
@@ -7,11 +11,13 @@ package ru.yandex.qatools.processors.matcher.gen.util;
  */
 public class GenUtils {
     public static final String CLASS_SUFFIX = "Matchers";
+    public static final Logger LOGGER = Logger.getLogger(GenUtils.class.getCanonicalName());
 
     public static Class forName(String name) {
         try {
             return Class.forName(name);
         } catch (ClassNotFoundException e) {
+            LOGGER.info(format("Can't find class %s in classpath, skipping...", name));
             return null;
         }
     }
