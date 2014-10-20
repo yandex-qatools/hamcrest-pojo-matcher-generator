@@ -1,6 +1,5 @@
 package ru.yandex.qatools.processors.matchers.gen.processing;
 
-import com.google.common.base.Joiner;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
@@ -17,6 +16,7 @@ import javax.annotation.processing.Filer;
 import javax.tools.JavaFileObject;
 import java.io.Writer;
 
+import static ch.lambdaj.collection.LambdaCollections.with;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.contains;
@@ -71,7 +71,7 @@ public class ClassDescriptionProcessingTest {
     public void shouldCreateSourceFileContainsPackageAndClassName() throws Exception {
         process.convert(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
 
-        verify(filer).createSourceFile(contains(Joiner.on(".").join(PACKAGE_NAME, CLASS_NAME)));
+        verify(filer).createSourceFile(contains(with(PACKAGE_NAME, CLASS_NAME).join(".")));
     }
 
     @Test
