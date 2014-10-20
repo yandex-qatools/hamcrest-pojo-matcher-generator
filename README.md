@@ -62,3 +62,9 @@ public static org.hamcrest.Matcher<ru.yandex.qatools.beans.Owner> withEmail(org.
     };
 }
 ```
+
+#### 5. Use it!
+
+```java 
+assertThat(someOwner, withEmail(containsString("@"))); 
+```
