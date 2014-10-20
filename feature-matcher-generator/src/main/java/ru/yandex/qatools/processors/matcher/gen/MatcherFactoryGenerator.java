@@ -13,6 +13,7 @@ import javax.lang.model.element.TypeElement;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static ch.lambdaj.collection.LambdaCollections.with;
@@ -64,19 +65,19 @@ public class MatcherFactoryGenerator extends AbstractProcessor {
     }
 
 
-    public VelocityEngine engine() {
+    private VelocityEngine engine() {
         Properties props = new Properties();
         try {
             props.load(getResourceAsStream(this.getClass(), "velocity.properties"));
         } catch (IOException e) {
-            throw new RuntimeException("Can't load props for velocity", e);
+            LOGGER.log(Level.SEVERE, "Can't load props for velocity", e);
+            throw new IllegalStateException("Can't load props for velocity", e);
         }
 
         VelocityEngine ve = new VelocityEngine(props);
         ve.init();
 
         return ve;
-
     }
 
 }

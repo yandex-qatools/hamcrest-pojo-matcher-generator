@@ -14,6 +14,7 @@ import ru.yandex.qatools.processors.matcher.gen.processing.ClassDescriptionProce
 
 import javax.annotation.processing.Filer;
 import javax.tools.JavaFileObject;
+import java.io.IOException;
 import java.io.Writer;
 
 import static ch.lambdaj.collection.LambdaCollections.with;
@@ -24,6 +25,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static ru.yandex.qatools.processors.matcher.gen.processing.ClassDescriptionProcessing.processClassDescriptionsWith;
 
@@ -91,5 +93,13 @@ public class ClassDescriptionProcessingTest {
 
         verify(template).merge(any(Context.class), eq(writer));
         verify(writer).close();
+    }
+
+    @Test
+    public void shouldSkipExceptionsOnClassDescriptionProcessing() throws Exception {
+        when(javaFile.openWriter()).thenThrow(IOException.class);
+
+        process.convert(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
+        verifyNoMoreInteractions(velocity, template);
     }
 }

@@ -24,7 +24,7 @@ public class ClassDescriptionProcessing implements Converter<ClassDescription, V
 
     public static final String CLASS_TEMPLATE = "templates/class.vm";
 
-    public static Logger LOGGER = Logger.getLogger(ClassDescriptionProcessing.class.toString());
+    public static final Logger LOGGER = Logger.getLogger(ClassDescriptionProcessing.class.toString());
 
 
     private Filer filer;
