@@ -1,7 +1,5 @@
 package ru.yandex.qatools.processors.matchers.gen.processing;
 
-import com.sun.tools.javac.util.Context;
-import com.sun.tools.javac.util.Names;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExternalResource;
@@ -10,9 +8,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
 import ru.yandex.qatools.processors.matcher.gen.processing.FillMapWithFieldsProcess;
+import ru.yandex.qatools.processors.matchers.gen.processing.utils.TestObjFactory;
 
 import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.Name;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
@@ -76,7 +74,7 @@ public class FillMapWithFieldsProcessTest {
             when(field.getKind()).thenReturn(ElementKind.FIELD);
             when(field.getEnclosingElement()).thenReturn(type);
             when(field.asType()).thenReturn(fieldType);
-            when(field.getSimpleName()).thenReturn(name(name));
+            when(field.getSimpleName()).thenReturn(TestObjFactory.name(name));
         }
     };
 
@@ -91,8 +89,8 @@ public class FillMapWithFieldsProcessTest {
 
     @Test
     public void shouldCollectFieldsOfOneClassInOneClass() throws Exception {
-        when(pack.getQualifiedName()).thenReturn(name(QUALIFIED_PACKAGE_NAME));
-        when(type.getSimpleName()).thenReturn(name(SIMPLE_ENCLOSING_CLASS_NAME));
+        when(pack.getQualifiedName()).thenReturn(TestObjFactory.name(QUALIFIED_PACKAGE_NAME));
+        when(type.getSimpleName()).thenReturn(TestObjFactory.name(SIMPLE_ENCLOSING_CLASS_NAME));
 
         process.convert(field1);
         process.convert(field2);
@@ -105,10 +103,10 @@ public class FillMapWithFieldsProcessTest {
 
     @Test
     public void shouldCollectFieldsOfTwoClassesSeparated() throws Exception {
-        when(pack.getQualifiedName()).thenReturn(name(QUALIFIED_PACKAGE_NAME));
+        when(pack.getQualifiedName()).thenReturn(TestObjFactory.name(QUALIFIED_PACKAGE_NAME));
         when(type.getSimpleName())
-                .thenReturn(name(SIMPLE_ENCLOSING_CLASS_NAME))
-                .thenReturn(name(SIMPLE_ENCLOSING_CLASS_NAME_2));
+                .thenReturn(TestObjFactory.name(SIMPLE_ENCLOSING_CLASS_NAME))
+                .thenReturn(TestObjFactory.name(SIMPLE_ENCLOSING_CLASS_NAME_2));
 
         process.convert(field1);
         process.convert(field2);
@@ -119,7 +117,4 @@ public class FillMapWithFieldsProcessTest {
         assertThat("Should collect one field", map.values(), everyItem(withFields(hasSize(1))));
     }
 
-    private static Name name(String name) {
-        return Names.instance(new Context()).fromString(name);
-    }
 }
