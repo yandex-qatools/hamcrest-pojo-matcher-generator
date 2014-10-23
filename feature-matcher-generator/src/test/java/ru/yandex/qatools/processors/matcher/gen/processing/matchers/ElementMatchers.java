@@ -1,4 +1,4 @@
-package ru.yandex.qatools.processors.matchers.gen.processing.matchers;
+package ru.yandex.qatools.processors.matcher.gen.processing.matchers;
 
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;

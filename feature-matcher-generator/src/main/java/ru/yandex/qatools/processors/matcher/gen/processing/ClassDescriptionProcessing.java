@@ -39,7 +39,15 @@ public class ClassDescriptionProcessing implements Converter<ClassDescription, V
         return new ClassDescriptionProcessing(filer, engine);
     }
 
-
+    /**
+     * Merges each class bean (with fields) and template and write it as source file
+     * uses {@link ru.yandex.qatools.processors.matcher.gen.processing.ClassDescriptionProcessing} to write sources
+     * and {@link org.apache.velocity.app.VelocityEngine} to create template
+     *
+     * @param from - bean to write as matcher class
+     * @return null
+     * @see ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription
+     */
     @Override
     public Void convert(ClassDescription from) {
         VelocityContext context = new VelocityContext();

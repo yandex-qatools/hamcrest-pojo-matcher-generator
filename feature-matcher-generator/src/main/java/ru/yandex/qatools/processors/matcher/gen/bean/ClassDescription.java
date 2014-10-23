@@ -7,6 +7,8 @@ import java.util.List;
  * User: lanwen
  * Date: 18.09.14
  * Time: 16:41
+ *
+ * Bean to store info about class. Stores fields list for matcher generation.
  */
 public class ClassDescription {
 

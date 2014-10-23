@@ -1,4 +1,4 @@
-package ru.yandex.qatools.processors.matchers.gen.processing.utils;
+package ru.yandex.qatools.processors.matcher.gen.processing.utils;
 
 import javax.lang.model.element.Name;
 

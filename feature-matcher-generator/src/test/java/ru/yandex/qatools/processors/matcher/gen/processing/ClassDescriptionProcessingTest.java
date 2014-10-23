@@ -1,4 +1,4 @@
-package ru.yandex.qatools.processors.matchers.gen.processing;
+package ru.yandex.qatools.processors.matcher.gen.processing;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
