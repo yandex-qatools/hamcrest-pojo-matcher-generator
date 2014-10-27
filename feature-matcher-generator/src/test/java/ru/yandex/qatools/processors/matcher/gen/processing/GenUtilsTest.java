@@ -1,4 +1,4 @@
-package ru.yandex.qatools.processors.matchers.gen.processing;
+package ru.yandex.qatools.processors.matcher.gen.processing;
 
 import org.junit.Test;
 import ru.yandex.qatools.processors.matcher.gen.util.GenUtils;

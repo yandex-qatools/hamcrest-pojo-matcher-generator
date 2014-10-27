@@ -4,6 +4,8 @@ package ru.yandex.qatools.processors.matcher.gen.bean;
  * User: lanwen
  * Date: 18.09.14
  * Time: 16:42
+ *
+ * Bean to store info about field to generate matcher
  */
 public class FieldDescription {
     private CharSequence name;

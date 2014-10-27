@@ -1,4 +1,4 @@
-package ru.yandex.qatools.processors.matchers.gen.processing;
+package ru.yandex.qatools.processors.matcher.gen.processing;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -7,14 +7,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
-import ru.yandex.qatools.processors.matcher.gen.processing.FillMapWithFieldsProcess;
-import ru.yandex.qatools.processors.matchers.gen.processing.utils.TestObjFactory;
+import ru.yandex.qatools.processors.matcher.gen.processing.utils.TestObjFactory;
 
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
+import java.util.Collection;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static ru.yandex.qatools.processors.matchers.gen.processing.matchers.ElementMatchers.withFields;
+import static ru.yandex.qatools.processors.matcher.gen.processing.matchers.ElementMatchers.withFields;
 
 /**
  * User: lanwen
@@ -62,7 +62,7 @@ public class FillMapWithFieldsProcessTest {
     public ExternalResource prepare = new ExternalResource() {
         @Override
         protected void before() throws Throwable {
-            process = FillMapWithFieldsProcess.fillMapOfClassDescriptions();
+            process = FillMapWithFieldsProcess.fillMapOfClassDescriptionsProcess();
 
             when(type.getEnclosingElement()).thenReturn(pack);
 
@@ -95,10 +95,10 @@ public class FillMapWithFieldsProcessTest {
         process.convert(field1);
         process.convert(field2);
 
-        Map<String, ClassDescription> map = process.collectedClassesMap();
+        Collection<ClassDescription> classes = process.collectedClasses();
 
-        assertThat("Should have one class in map", map.keySet(), hasSize(1));
-        assertThat("Should collect two fields", map.values(), everyItem(withFields(hasSize(2))));
+        assertThat("Should have one class in map", classes, hasSize(1));
+        assertThat("Should collect two fields", classes, everyItem(withFields(hasSize(2))));
     }
 
     @Test
@@ -111,10 +111,10 @@ public class FillMapWithFieldsProcessTest {
         process.convert(field1);
         process.convert(field2);
 
-        Map<String, ClassDescription> map = process.collectedClassesMap();
+        Collection<ClassDescription> classes = process.collectedClasses();
 
-        assertThat("Should have two classes in map", map.keySet(), hasSize(2));
-        assertThat("Should collect one field", map.values(), everyItem(withFields(hasSize(1))));
+        assertThat("Should have two classes in map", classes, hasSize(2));
+        assertThat("Should collect one field", classes, everyItem(withFields(hasSize(1))));
     }
 
 }

@@ -7,7 +7,9 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.valueOf;
@@ -24,10 +26,16 @@ public class FillMapWithFieldsProcess implements Converter<Element, Void> {
     private FillMapWithFieldsProcess() {
     }
 
-    public static FillMapWithFieldsProcess fillMapOfClassDescriptions() {
+    public static FillMapWithFieldsProcess fillMapOfClassDescriptionsProcess() {
         return new FillMapWithFieldsProcess();
     }
 
+    /**
+     * Fills map of classes with each new field. Merges existing classes with new fields,
+     * create new classes if field from new class
+     * @param elem next element to process. Will be skipped if not field
+     * @return null
+     */
     @Override
     public Void convert(Element elem) {
 
@@ -45,6 +53,13 @@ public class FillMapWithFieldsProcess implements Converter<Element, Void> {
         return null;
     }
 
+    /**
+     * Get class description bean from map. If no such, creates a new one
+     * @param map to find a bean
+     * @param packageName package of target class
+     * @param name - simple name of target class
+     * @return ClassDescription bean to add new field
+     */
     private ClassDescription byClassFrom(Map<String, ClassDescription> map,
                                          CharSequence packageName, CharSequence name) {
         String key = valueOf(packageName) + name;
@@ -54,8 +69,10 @@ public class FillMapWithFieldsProcess implements Converter<Element, Void> {
         return map.get(key);
     }
 
-
-    public Map<String, ClassDescription> collectedClassesMap() {
-        return classes;
+    /**
+     * @return collection with all class beans
+     */
+    public Collection<ClassDescription> collectedClasses() {
+        return classes.values();
     }
 }

@@ -1,11 +1,10 @@
-package ru.yandex.qatools.processors.matchers.gen.processing;
+package ru.yandex.qatools.processors.matcher.gen.processing;
 
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.yandex.qatools.processors.matcher.gen.processing.FillMapWithFieldsProcess;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -38,7 +37,7 @@ public class FillMapWithFieldsProcessOnlyFieldsTest {
     public static ExternalResource prepare = new ExternalResource() {
         @Override
         protected void before() throws Throwable {
-            process = FillMapWithFieldsProcess.fillMapOfClassDescriptions();
+            process = FillMapWithFieldsProcess.fillMapOfClassDescriptionsProcess();
         }
     };
 
