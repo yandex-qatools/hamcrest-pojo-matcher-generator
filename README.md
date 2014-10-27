@@ -1,4 +1,4 @@
-## Feature Matcher Generator
+## Hamcrest Feature Matcher Generator for POJOs
 
 Inspired by lot of dummy work to create matchers for fields in auto-generated beans to write POJO-based tests. 
 
