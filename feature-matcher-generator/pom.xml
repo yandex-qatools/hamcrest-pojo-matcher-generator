@@ -13,6 +13,19 @@
     <name>lib-qatools-feature-matcher-generator</name>
     <description>Annotation Processor to generate Hamcrest's Feature Matchers for fields</description>
 
+    <organization>
+        <name>Yandex LLC</name>
+        <url>http://company.yandex.com</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <dependencies>
 
         <dependency>
