@@ -1,5 +1,8 @@
 package ${type.packageName()};
 
+import javax.annotation.Generated;
+
+@Generated("ru.yandex.qatools.processors.matcher.gen.MatcherFactoryGenerator")
 public final class ${utils.withGeneratedSuffix(${type.name()})} {
     /**
      * This class could not be instantiated
