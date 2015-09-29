@@ -12,9 +12,12 @@
 
     <packaging>pom</packaging>
 
-
     <name>Yandex QATools Annotation Processors</name>
     <url>https://github.com/yandex-qatools/annotation-processors/</url>
+
+    <prerequisites>
+        <maven>2.2.1</maven>
+    </prerequisites>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -147,7 +150,7 @@
             <dependency>
                 <groupId>ru.yandex.qatools.properties</groupId>
                 <artifactId>properties-loader</artifactId>
-                <version>1.5</version>
+                <version>1.6</version>
             </dependency>
 
         </dependencies>
