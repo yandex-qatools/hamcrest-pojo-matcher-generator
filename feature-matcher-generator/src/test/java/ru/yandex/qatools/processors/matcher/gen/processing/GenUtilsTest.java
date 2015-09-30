@@ -14,7 +14,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GenUtilsTest {
 
     /**
-     * If add 'get' to field _class with ignoring first undescore we got getClass(). Need to be getClass_();
+     * If add 'get' to field _class with ignoring first underscore we got getClass().
+     * Need to be getClass_();
      */
     @Test
     public void shouldAvoidGetClassMethodCollisions() throws Exception {

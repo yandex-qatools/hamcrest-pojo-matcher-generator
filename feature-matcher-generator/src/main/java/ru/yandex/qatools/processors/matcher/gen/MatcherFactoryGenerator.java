@@ -74,7 +74,7 @@ public class MatcherFactoryGenerator extends AbstractProcessor {
 
             with(fillMapWithFields.collectedClasses())
                     .convert(processClassDescriptionsWith(processingEnv.getFiler(), engine));
-            LOGGER.info("Writed all!");
+            LOGGER.info("All classes were successfully processed!");
 
         } catch (Throwable t) {
             LOGGER.log(Level.SEVERE, format("Can't generate matchers, because of: %s", t.getMessage()), t);
