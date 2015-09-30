@@ -7,14 +7,8 @@ import ru.yandex.qatools.properties.annotations.Resource;
 import ru.yandex.qatools.properties.annotations.Use;
 import ru.yandex.qatools.properties.annotations.With;
 
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
 import java.util.ArrayList;
 import java.util.List;
-
-import static ch.lambdaj.collection.LambdaCollections.with;
-import static org.hamcrest.Matchers.nullValue;
-import static ru.yandex.qatools.processors.matcher.gen.util.converters.StringToTypeElementConverter.toTypeElements;
 
 /**
  * User: lanwen
