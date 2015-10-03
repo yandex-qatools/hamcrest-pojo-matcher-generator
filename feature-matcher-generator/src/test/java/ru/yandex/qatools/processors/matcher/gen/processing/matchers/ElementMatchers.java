@@ -5,6 +5,7 @@ import org.hamcrest.Matcher;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
 import ru.yandex.qatools.processors.matcher.gen.bean.FieldDescription;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public final class ElementMatchers {
         return new FeatureMatcher<ClassDescription, List<FieldDescription>>(matcher, "fields", "fields") {
             @Override
             protected List<FieldDescription> featureValueOf(ClassDescription actual) {
-                return actual.fields();
+                return new ArrayList<>(actual.fields());
             }
         };
     }

@@ -1,7 +1,8 @@
 package ru.yandex.qatools.processors.matcher.gen.bean;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * User: lanwen
@@ -15,7 +16,7 @@ public class ClassDescription {
     private CharSequence packageName;
     private CharSequence name;
 
-    private List<FieldDescription> fields = new ArrayList<>();
+    private Set<FieldDescription> fields = new LinkedHashSet<>();
 
 
     public ClassDescription(CharSequence packageName, CharSequence name) {
@@ -31,7 +32,7 @@ public class ClassDescription {
         return String.valueOf(name);
     }
 
-    public List<FieldDescription> fields() {
+    public Collection<FieldDescription> fields() {
         return fields;
     }
 

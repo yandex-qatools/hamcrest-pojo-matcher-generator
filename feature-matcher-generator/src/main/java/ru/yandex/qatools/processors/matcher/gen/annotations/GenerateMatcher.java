@@ -15,6 +15,6 @@ import java.lang.annotation.Target;
  * @see ru.yandex.qatools.processors.matcher.gen.util.MatchersGenProperties
  */
 @Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.FIELD)
+@Target({ ElementType.FIELD, ElementType.TYPE })
 public @interface GenerateMatcher {
 }
