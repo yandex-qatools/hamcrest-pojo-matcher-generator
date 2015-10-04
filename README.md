@@ -24,6 +24,7 @@ Useful for testing auto-generated unmarshalled beans with help of
 #### 2. Generate (or write) beans
 
 ```java 
+@GenerateMatcher // works with class level annotations as every field with same annotation
 public class Owner {
     @GenerateMatcher
     private String email;
