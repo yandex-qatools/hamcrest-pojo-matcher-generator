@@ -102,4 +102,11 @@ assertThat(someOwner, both(withEmail(containsString("@"))).and(withUid(is(uid)))
 2. Run `mvn clean compile`
 3. Connect with remote debugger to port *8000*
 
+#### With Intellij IDEA
 
+1. Open `"Maven Projects"` view
+2. Disclose `"Yandex QATools Annotation Processors"` element
+2. Right-click on Maven phase `"package"`
+3. Click on `"Debug 'annotation-processors'"`
+
+It will create a new launcher configuration which can be used to debug project.
