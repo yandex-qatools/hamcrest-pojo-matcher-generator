@@ -9,6 +9,7 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.valueOf;
@@ -37,8 +38,9 @@ public class FillMapWithFieldsProcess implements Converter<Element, Void> {
      */
     @Override
     public Void convert(Element elem) {
+        ElementKind elemKind = elem.getKind();
 
-        if (elem.getKind() == ElementKind.FIELD) {
+        if (elemKind == ElementKind.FIELD) {
             TypeElement classElement = (TypeElement) elem.getEnclosingElement();
             PackageElement packageElement = (PackageElement) classElement.getEnclosingElement();
 
@@ -47,6 +49,12 @@ public class FillMapWithFieldsProcess implements Converter<Element, Void> {
                     classElement.getSimpleName());
 
             classDescription.addField(field(elem.getSimpleName(), elem.asType().toString()));
+        } else if (elemKind == ElementKind.CLASS) {
+            List<? extends Element> enclosedElements = elem.getEnclosedElements();
+
+            for (Element enclosedElement : enclosedElements) {
+                convert(enclosedElement);
+            }
         }
 
         return null;

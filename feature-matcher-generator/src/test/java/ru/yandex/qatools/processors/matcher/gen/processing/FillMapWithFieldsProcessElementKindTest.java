@@ -1,5 +1,6 @@
 package ru.yandex.qatools.processors.matcher.gen.processing;
 
+import ch.lambdaj.collection.LambdaList;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.ExternalResource;
@@ -11,7 +12,7 @@ import javax.lang.model.element.ElementKind;
 import java.util.Collection;
 
 import static ch.lambdaj.collection.LambdaCollections.with;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static java.util.Arrays.asList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
@@ -24,11 +25,13 @@ import static org.mockito.Mockito.when;
  * Time: 20:06
  */
 @RunWith(Parameterized.class)
-public class FillMapWithFieldsProcessOnlyFieldsTest {
+public class FillMapWithFieldsProcessElementKindTest {
 
     @Parameterized.Parameters(name = "{0}")
     public static Collection<ElementKind> data() {
-        return with(ElementKind.values()).remove(equalTo(ElementKind.FIELD));
+        LambdaList<ElementKind> data = with(ElementKind.values());
+        data.removeAll(asList(ElementKind.FIELD, ElementKind.CLASS));
+        return data;
     }
 
     private static FillMapWithFieldsProcess process;
@@ -46,7 +49,7 @@ public class FillMapWithFieldsProcessOnlyFieldsTest {
 
 
     @Test
-    public void shouldProcessOnlyFields() throws Exception {
+    public void shouldProcessOnlyFieldsAndClasses() throws Exception {
         Element element = mock(Element.class);
         when(element.getKind()).thenReturn(kind);
 
