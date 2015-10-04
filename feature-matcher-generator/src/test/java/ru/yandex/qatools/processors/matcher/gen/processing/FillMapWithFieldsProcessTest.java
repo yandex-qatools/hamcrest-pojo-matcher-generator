@@ -5,10 +5,15 @@ import org.junit.Test;
 import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
 import ru.yandex.qatools.processors.matcher.gen.processing.utils.TestObjFactory;
+import ru.yandex.qatools.processors.matcher.gen.util.helpers.GeneratorHelper;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
@@ -19,6 +24,7 @@ import java.util.Collection;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static ru.yandex.qatools.processors.matcher.gen.processing.matchers.ElementMatchers.withFields;
@@ -56,12 +62,24 @@ public class FillMapWithFieldsProcessTest {
     @Mock
     private PackageElement pack;
 
-
     @Rule
     public ExternalResource prepare = new ExternalResource() {
         @Override
         protected void before() throws Throwable {
-            process = FillMapWithFieldsProcess.fillMapOfClassDescriptionsProcess();
+            GeneratorHelper helper = mock(GeneratorHelper.class);
+
+            // Java's Annotation Processing API is not available in unit tests, so it is necessary to mock method
+            // "getWrappedType" for returning the first argument/element as result - boxing operation will not work.
+            when(helper.getWrappedType(Mockito.<Element>any()))
+                .thenAnswer(new Answer<Element>() {
+                    @Override
+                    public Element answer(InvocationOnMock invocation) throws Throwable {
+                        Object[] args = invocation.getArguments();
+                        return (Element) args[0];
+                    }
+                });
+
+            process = FillMapWithFieldsProcess.fillMapOfClassDescriptionsProcess(helper);
 
             when(type.getEnclosingElement()).thenReturn(pack);
 
@@ -78,12 +96,11 @@ public class FillMapWithFieldsProcessTest {
     };
 
     @Test
-    public void shouldAskPackAndClassNamesAndFieldType() throws Exception {
+    public void shouldAskPackAndClassNames() throws Exception {
         process.convert(field1);
 
         verify(pack).getQualifiedName();
         verify(type).getSimpleName();
-        verify(field1).asType();
     }
 
     @Test

@@ -2,7 +2,7 @@ package ru.yandex.qatools.processors.matcher.gen;
 
 import org.apache.velocity.app.VelocityEngine;
 import ru.yandex.qatools.processors.matcher.gen.processing.FillMapWithFieldsProcess;
-import ru.yandex.qatools.processors.matcher.gen.util.helpers.ElementsHelper;
+import ru.yandex.qatools.processors.matcher.gen.util.helpers.GeneratorHelper;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -38,12 +38,15 @@ public class MatcherFactoryGenerator extends AbstractProcessor {
     public static final String ANY = "*";
     public static final Logger LOGGER = Logger.getLogger(MatcherFactoryGenerator.class.toString());
 
-    private ElementsHelper helper;
+    private GeneratorHelper helper;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         this.processingEnv = processingEnv;
-        this.helper = new ElementsHelper(processingEnv.getElementUtils());
+        this.helper = new GeneratorHelper(
+            processingEnv.getElementUtils(),
+            processingEnv.getTypeUtils()
+        );
     }
 
     @Override
@@ -62,7 +65,8 @@ public class MatcherFactoryGenerator extends AbstractProcessor {
 
             VelocityEngine engine = engine();
 
-            FillMapWithFieldsProcess fillMapWithFields = fillMapOfClassDescriptionsProcess();
+            FillMapWithFieldsProcess fillMapWithFields =
+                fillMapOfClassDescriptionsProcess(helper);
 
             for (TypeElement annotation : toProcess) {
                 LOGGER.info(format("Work with %s...", annotation.getQualifiedName()));

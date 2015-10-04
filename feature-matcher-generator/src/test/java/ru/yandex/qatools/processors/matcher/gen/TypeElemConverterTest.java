@@ -5,10 +5,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.yandex.qatools.processors.matcher.gen.util.converters.StringToTypeElementConverter;
-import ru.yandex.qatools.processors.matcher.gen.util.helpers.ElementsHelper;
+import ru.yandex.qatools.processors.matcher.gen.util.helpers.GeneratorHelper;
 
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,6 +30,9 @@ public class TypeElemConverterTest {
     @Mock
     private Elements elements;
 
+    @Mock
+    private Types types;
+
     @Test
     public void shouldGetTypeElemFromElementsUtils() throws Exception {
         StringToTypeElementConverter.toTypeElements(elements).convert(CLASS_NAME);
@@ -37,7 +41,10 @@ public class TypeElemConverterTest {
 
     @Test
     public void shouldHandleEmptyAnnotationsList() throws Exception {
-        Set<TypeElement> filter = new ElementsHelper(elements).filter(new HashSet<TypeElement>());
+        Set<TypeElement> filter = new GeneratorHelper(elements, types)
+            .filter(new HashSet<TypeElement>());
+
         assertThat(filter, hasSize(0));
     }
+
 }

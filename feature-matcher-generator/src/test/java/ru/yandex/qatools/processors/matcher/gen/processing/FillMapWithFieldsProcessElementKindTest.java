@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import ru.yandex.qatools.processors.matcher.gen.util.helpers.GeneratorHelper;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -40,7 +41,9 @@ public class FillMapWithFieldsProcessElementKindTest {
     public static ExternalResource prepare = new ExternalResource() {
         @Override
         protected void before() throws Throwable {
-            process = FillMapWithFieldsProcess.fillMapOfClassDescriptionsProcess();
+            process = FillMapWithFieldsProcess.fillMapOfClassDescriptionsProcess(
+                mock(GeneratorHelper.class)
+            );
         }
     };
 
