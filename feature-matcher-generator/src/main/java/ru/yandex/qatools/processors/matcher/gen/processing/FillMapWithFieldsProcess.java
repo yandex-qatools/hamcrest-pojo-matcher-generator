@@ -2,9 +2,11 @@ package ru.yandex.qatools.processors.matcher.gen.processing;
 
 import ch.lambdaj.function.convert.Converter;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
+import ru.yandex.qatools.processors.matcher.gen.util.helpers.GeneratorHelper;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Name;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import java.util.Collection;
@@ -21,13 +23,17 @@ import static ru.yandex.qatools.processors.matcher.gen.bean.FieldDescription.fie
  * Time: 18:50
  */
 public class FillMapWithFieldsProcess implements Converter<Element, Void> {
-    private Map<String, ClassDescription> classes = new HashMap<>();
 
-    private FillMapWithFieldsProcess() {
+    private final Map<String, ClassDescription> classes = new HashMap<>();
+    private final GeneratorHelper helper;
+
+
+    private FillMapWithFieldsProcess(GeneratorHelper helper) {
+        this.helper = helper;
     }
 
-    public static FillMapWithFieldsProcess fillMapOfClassDescriptionsProcess() {
-        return new FillMapWithFieldsProcess();
+    public static FillMapWithFieldsProcess fillMapOfClassDescriptionsProcess(GeneratorHelper helper) {
+        return new FillMapWithFieldsProcess(helper);
     }
 
     /**
@@ -48,7 +54,9 @@ public class FillMapWithFieldsProcess implements Converter<Element, Void> {
                     packageElement.getQualifiedName(),
                     classElement.getSimpleName());
 
-            classDescription.addField(field(elem.getSimpleName(), elem.asType().toString()));
+            Name fieldName = elem.getSimpleName();
+            String fieldType = helper.getWrappedType(elem).toString();
+            classDescription.addField(field(fieldName, fieldType));
         } else if (elemKind == ElementKind.CLASS) {
             List<? extends Element> enclosedElements = elem.getEnclosedElements();
 
