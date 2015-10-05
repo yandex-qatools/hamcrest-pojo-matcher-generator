@@ -1,12 +1,19 @@
 package ru.yandex.qatools.processors.matcher.gen.util;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * User: lanwen
  * Date: 18.09.14
  * Time: 16:26
  */
-public class GenUtils {
+public final class GenUtils {
+
     public static final String CLASS_SUFFIX = "Matchers";
+
+    private GenUtils() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Used in template processing
@@ -15,36 +22,17 @@ public class GenUtils {
      *
      * @return capitalized name with avoiding collisions for getClass() method
      */
-    @SuppressWarnings("unused")
-    public String normalize(String name) {
+    public static String normalize(String name) {
         return capitalize(name.replaceFirst("^_", ""))
                 .replaceFirst("^Class$", "Class_");
     }
 
-
-    @SuppressWarnings("unused")
-    public String withGeneratedSuffix(String what) {
+    public static String withGeneratedSuffix(String what) {
         return what + CLASS_SUFFIX;
     }
 
-    /**
-     * Copy-paste from StringUtils from commons-lang3
-     */
-    public static String capitalize(final String str) {
-        int strLen;
-        if (str == null || (strLen = str.length()) == 0) {
-            return str;
-        }
-
-        char firstChar = str.charAt(0);
-        if (Character.isTitleCase(firstChar)) {
-            // already capitalized
-            return str;
-        }
-
-        return new StringBuilder(strLen)
-                .append(Character.toTitleCase(firstChar))
-                .append(str.substring(1))
-                .toString();
+    public static String capitalize(String str) {
+        return StringUtils.capitalize(str);
     }
+
 }
