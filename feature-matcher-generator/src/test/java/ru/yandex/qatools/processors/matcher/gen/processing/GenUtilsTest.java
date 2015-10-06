@@ -19,11 +19,11 @@ public class GenUtilsTest {
      */
     @Test
     public void shouldAvoidGetClassMethodCollisions() throws Exception {
-        assertThat(new GenUtils().normalize("_class"), equalTo("Class_"));
+        assertThat(GenUtils.normalize("_class"), equalTo("Class_"));
     }
 
     @Test
     public void shouldIgnoreUnderscoresInBeginning() throws Exception {
-        assertThat(new GenUtils().normalize("_public"), equalTo("Public"));
+        assertThat(GenUtils.normalize("_public"), equalTo("Public"));
     }
 }

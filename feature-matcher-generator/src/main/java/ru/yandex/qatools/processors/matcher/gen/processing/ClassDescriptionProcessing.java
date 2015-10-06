@@ -53,17 +53,16 @@ public class ClassDescriptionProcessing implements Converter<ClassDescription, V
         VelocityContext context = new VelocityContext();
 
         context.put("type", from);
-        context.put("utils", new GenUtils());
+        context.put("utils", GenUtils.class);
 
         try {
             JavaFileObject jfo = filer
-                    .createSourceFile(new GenUtils().withGeneratedSuffix(
+                    .createSourceFile(GenUtils.withGeneratedSuffix(
                             with(from.packageName(), from.name()).join(".")));
 
             try (Writer writer = jfo.openWriter()) {
                 engine.getTemplate(CLASS_TEMPLATE).merge(context, writer);
             }
-
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, format("Error: %s", e.getMessage()), e);
         }
