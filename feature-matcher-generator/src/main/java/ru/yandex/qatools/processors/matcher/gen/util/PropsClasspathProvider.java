@@ -23,8 +23,10 @@ public class PropsClasspathProvider extends DefaultPropertyProvider {
         Class<?> clazz = bean.getClass();
 
         if (have(clazz, Resource.Classpath.class)) {
-            String path = classpath(clazz, properties);
-            properties.putAll(readProperties(getResourceAsStream(clazz, path)));
+            String[] paths = classpath(clazz, properties);
+            for (String path : paths) {
+                properties.putAll(readProperties(getResourceAsStream(clazz, path)));
+            }
         }
 
         properties.putAll(System.getProperties());
