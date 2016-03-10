@@ -16,12 +16,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static ch.lambdaj.collection.LambdaCollections.with;
 import static java.lang.String.format;
 import static org.apache.velocity.util.ClassUtils.getResourceAsStream;
+import static ru.qatools.properties.utils.PropertiesUtils.readProperties;
 import static ru.yandex.qatools.processors.matcher.gen.processing.ClassDescriptionProcessing.processClassDescriptionsWith;
 import static ru.yandex.qatools.processors.matcher.gen.processing.FillMapWithFieldsProcess.fillMapOfClassDescriptionsProcess;
-import static ru.yandex.qatools.properties.utils.PropertiesUtils.readProperties;
 
 /**
  * User: lanwen
@@ -31,7 +30,7 @@ import static ru.yandex.qatools.properties.utils.PropertiesUtils.readProperties;
 @SupportedAnnotationTypes({
         MatcherFactoryGenerator.ANY
 })
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class MatcherFactoryGenerator extends AbstractProcessor {
 
 
@@ -44,8 +43,8 @@ public class MatcherFactoryGenerator extends AbstractProcessor {
     public synchronized void init(ProcessingEnvironment processingEnv) {
         this.processingEnv = processingEnv;
         this.helper = new GeneratorHelper(
-            processingEnv.getElementUtils(),
-            processingEnv.getTypeUtils()
+                processingEnv.getElementUtils(),
+                processingEnv.getTypeUtils()
         );
     }
 
@@ -65,19 +64,18 @@ public class MatcherFactoryGenerator extends AbstractProcessor {
 
             VelocityEngine engine = engine();
 
-            FillMapWithFieldsProcess fillMapWithFields =
-                fillMapOfClassDescriptionsProcess(helper);
+            FillMapWithFieldsProcess fillMapWithFields = fillMapOfClassDescriptionsProcess(helper);
 
             for (TypeElement annotation : toProcess) {
                 LOGGER.info(format("Work with %s...", annotation.getQualifiedName()));
-                with(roundEnv.getElementsAnnotatedWith(annotation)).convert(fillMapWithFields);
+                roundEnv.getElementsAnnotatedWith(annotation).forEach(fillMapWithFields);
             }
 
             LOGGER.info(format("Got %s classes to generate matchers. Writing them...",
                     fillMapWithFields.collectedClasses().size()));
 
-            with(fillMapWithFields.collectedClasses())
-                    .convert(processClassDescriptionsWith(processingEnv.getFiler(), engine));
+            fillMapWithFields.collectedClasses()
+                    .forEach(processClassDescriptionsWith(processingEnv.getFiler(), engine));
             LOGGER.info("All classes were successfully processed!");
 
         } catch (Throwable t) {

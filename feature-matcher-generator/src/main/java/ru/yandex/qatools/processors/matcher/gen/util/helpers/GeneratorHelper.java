@@ -8,14 +8,13 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
-import static ch.lambdaj.collection.LambdaCollections.with;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static org.hamcrest.collection.IsIn.isIn;
 import static ru.yandex.qatools.processors.matcher.gen.util.MatchersGenProperties.props;
-import static ru.yandex.qatools.processors.matcher.gen.util.converters.StringToTypeElementConverter.toTypeElements;
 
 /**
  * User: lanwen
@@ -35,18 +34,27 @@ public class GeneratorHelper {
 
     /**
      * Retain any processing annotation that we provide in props to generate matchers
-     * @param annotations - processing with annotation processor annotations (any)
+     *
+     * @param annotations processing with annotation processor annotations (any)
+     *
      * @return filtered set of annotations to generate matchers for fields with such annotations
      */
     public Set<TypeElement> filter(Set<? extends TypeElement> annotations) {
-        List<TypeElement> toProcess = with(props().annotationsToProcess())
-                .convert(toTypeElements(elUtils)).remove(nullValue());
-        return with(annotations).remove(not(isIn(toProcess)));
+        List<TypeElement> toProcess = props().annotationsToProcess().stream()
+                .map(elUtils::getTypeElement)
+                .filter(Objects::nonNull)
+                .collect(toList());
+        return annotations.stream()
+                .map(anno -> (TypeElement) anno)
+                .filter(anno -> isIn(toProcess).matches(anno))
+                .collect(toSet());
     }
 
     /**
      * "Box" element object to primitive-class wrapper or use the original element
+     *
      * @param element element object
+     *
      * @return wrapped element for primitive or original element otherwise
      */
     public Element getWrappedType(Element element) {

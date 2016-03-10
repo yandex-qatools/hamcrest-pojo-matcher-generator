@@ -10,14 +10,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
-import ru.yandex.qatools.processors.matcher.gen.processing.ClassDescriptionProcessing;
 
 import javax.annotation.processing.Filer;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.stream.Stream;
 
-import static ch.lambdaj.collection.LambdaCollections.with;
+import static java.util.stream.Collectors.joining;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.contains;
@@ -71,14 +71,14 @@ public class ClassDescriptionProcessingTest {
 
     @Test
     public void shouldCreateSourceFileContainsPackageAndClassName() throws Exception {
-        process.convert(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
+        process.accept(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
 
-        verify(filer).createSourceFile(contains(with(PACKAGE_NAME, CLASS_NAME).join(".")));
+        verify(filer).createSourceFile(contains(Stream.of(PACKAGE_NAME, CLASS_NAME).collect(joining("."))));
     }
 
     @Test
     public void shouldInvokeClassTemplateOnceToWriteClassDescription() throws Exception {
-        process.convert(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
+        process.accept(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
 
         verify(velocity, only()).getTemplate(ClassDescriptionProcessing.CLASS_TEMPLATE);
         verify(template, only()).merge(any(Context.class), any(Writer.class));
@@ -89,7 +89,7 @@ public class ClassDescriptionProcessingTest {
         Writer writer = mock(Writer.class);
         when(javaFile.openWriter()).thenReturn(writer);
 
-        process.convert(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
+        process.accept(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
 
         verify(template).merge(any(Context.class), eq(writer));
         verify(writer).close();
@@ -99,7 +99,7 @@ public class ClassDescriptionProcessingTest {
     public void shouldSkipExceptionsOnClassDescriptionProcessing() throws Exception {
         when(javaFile.openWriter()).thenThrow(IOException.class);
 
-        process.convert(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
+        process.accept(new ClassDescription(PACKAGE_NAME, CLASS_NAME));
         verifyNoMoreInteractions(velocity, template);
     }
 }

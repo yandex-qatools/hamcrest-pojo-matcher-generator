@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import ru.yandex.qatools.processors.matcher.gen.util.converters.StringToTypeElementConverter;
 import ru.yandex.qatools.processors.matcher.gen.util.helpers.GeneratorHelper;
 
 import javax.lang.model.element.TypeElement;
@@ -15,7 +14,6 @@ import java.util.Set;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.verify;
 
 /**
  * User: lanwen
@@ -25,8 +23,6 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class TypeElemConverterTest {
 
-    public static final String CLASS_NAME = "ru.yandex.ClassBean";
-
     @Mock
     private Elements elements;
 
@@ -34,15 +30,9 @@ public class TypeElemConverterTest {
     private Types types;
 
     @Test
-    public void shouldGetTypeElemFromElementsUtils() throws Exception {
-        StringToTypeElementConverter.toTypeElements(elements).convert(CLASS_NAME);
-        verify(elements).getTypeElement(CLASS_NAME);
-    }
-
-    @Test
     public void shouldHandleEmptyAnnotationsList() throws Exception {
         Set<TypeElement> filter = new GeneratorHelper(elements, types)
-            .filter(new HashSet<TypeElement>());
+                .filter(new HashSet<>());
 
         assertThat(filter, hasSize(0));
     }
