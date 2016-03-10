@@ -35,15 +35,19 @@ public class GeneratorHelper {
     /**
      * Retain any processing annotation that we provide in props to generate matchers
      *
-     * @param annotations - processing with annotation processor annotations (any)
+     * @param annotations processing with annotation processor annotations (any)
      *
      * @return filtered set of annotations to generate matchers for fields with such annotations
      */
     public Set<TypeElement> filter(Set<? extends TypeElement> annotations) {
         List<TypeElement> toProcess = props().annotationsToProcess().stream()
                 .map(elUtils::getTypeElement)
-                .filter(Objects::nonNull).collect(toList());
-        return annotations.stream().filter(anno -> isIn(toProcess).matches(anno)).collect(toSet());
+                .filter(Objects::nonNull)
+                .collect(toList());
+        return annotations.stream()
+                .map(anno -> (TypeElement) anno)
+                .filter(anno -> isIn(toProcess).matches(anno))
+                .collect(toSet());
     }
 
     /**
