@@ -1,6 +1,5 @@
 package ru.yandex.qatools.processors.matcher.gen.processing;
 
-import ch.lambdaj.function.convert.Converter;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
@@ -9,18 +8,20 @@ import ru.yandex.qatools.processors.matcher.gen.util.GenUtils;
 import javax.annotation.processing.Filer;
 import javax.tools.JavaFileObject;
 import java.io.Writer;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
-import static ch.lambdaj.collection.LambdaCollections.with;
 import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
 
 /**
  * User: lanwen
  * Date: 18.09.14
  * Time: 18:34
  */
-public class ClassDescriptionProcessing implements Converter<ClassDescription, Void> {
+public class ClassDescriptionProcessing implements Consumer<ClassDescription> {
 
     public static final String CLASS_TEMPLATE = "templates/class.vm";
 
@@ -45,11 +46,12 @@ public class ClassDescriptionProcessing implements Converter<ClassDescription, V
      * and {@link org.apache.velocity.app.VelocityEngine} to create template
      *
      * @param from - bean to write as matcher class
+     *
      * @return null
      * @see ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription
      */
     @Override
-    public Void convert(ClassDescription from) {
+    public void accept(ClassDescription from) {
         VelocityContext context = new VelocityContext();
 
         context.put("type", from);
@@ -58,7 +60,7 @@ public class ClassDescriptionProcessing implements Converter<ClassDescription, V
         try {
             JavaFileObject jfo = filer
                     .createSourceFile(GenUtils.withGeneratedSuffix(
-                            with(from.packageName(), from.name()).join(".")));
+                            Stream.of(from.packageName(), from.name()).collect(joining("."))));
 
             try (Writer writer = jfo.openWriter()) {
                 engine.getTemplate(CLASS_TEMPLATE).merge(context, writer);
@@ -66,7 +68,5 @@ public class ClassDescriptionProcessing implements Converter<ClassDescription, V
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, format("Error: %s", e.getMessage()), e);
         }
-
-        return null;
     }
 }

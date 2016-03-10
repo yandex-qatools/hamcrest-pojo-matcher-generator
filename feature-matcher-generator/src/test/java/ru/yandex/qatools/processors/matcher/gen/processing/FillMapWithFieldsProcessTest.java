@@ -71,13 +71,10 @@ public class FillMapWithFieldsProcessTest {
             // Java's Annotation Processing API is not available in unit tests, so it is necessary to mock method
             // "getWrappedType" for returning the first argument/element as result - boxing operation will not work.
             when(helper.getWrappedType(Mockito.<Element>any()))
-                .thenAnswer(new Answer<Element>() {
-                    @Override
-                    public Element answer(InvocationOnMock invocation) throws Throwable {
+                    .thenAnswer(invocation -> {
                         Object[] args = invocation.getArguments();
-                        return (Element) args[0];
-                    }
-                });
+                        return args[0];
+                    });
 
             process = FillMapWithFieldsProcess.fillMapOfClassDescriptionsProcess(helper);
 
@@ -97,7 +94,7 @@ public class FillMapWithFieldsProcessTest {
 
     @Test
     public void shouldAskPackAndClassNames() throws Exception {
-        process.convert(field1);
+        process.accept(field1);
 
         verify(pack).getQualifiedName();
         verify(type).getSimpleName();
@@ -108,8 +105,8 @@ public class FillMapWithFieldsProcessTest {
         when(pack.getQualifiedName()).thenReturn(TestObjFactory.name(QUALIFIED_PACKAGE_NAME));
         when(type.getSimpleName()).thenReturn(TestObjFactory.name(SIMPLE_ENCLOSING_CLASS_NAME));
 
-        process.convert(field1);
-        process.convert(field2);
+        process.accept(field1);
+        process.accept(field2);
 
         Collection<ClassDescription> classes = process.collectedClasses();
 
@@ -124,8 +121,8 @@ public class FillMapWithFieldsProcessTest {
                 .thenReturn(TestObjFactory.name(SIMPLE_ENCLOSING_CLASS_NAME))
                 .thenReturn(TestObjFactory.name(SIMPLE_ENCLOSING_CLASS_NAME_2));
 
-        process.convert(field1);
-        process.convert(field2);
+        process.accept(field1);
+        process.accept(field2);
 
         Collection<ClassDescription> classes = process.collectedClasses();
 

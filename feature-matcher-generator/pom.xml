@@ -39,14 +39,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.googlecode.lambdaj</groupId>
-            <artifactId>lambdaj</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>ru.yandex.qatools.properties</groupId>
-            <artifactId>properties-loader</artifactId>
+            <groupId>ru.qatools.commons</groupId>
+            <artifactId>properties</artifactId>
         </dependency>
 
         <dependency>
