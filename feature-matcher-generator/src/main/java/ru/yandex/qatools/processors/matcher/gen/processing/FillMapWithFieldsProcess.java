@@ -1,5 +1,6 @@
 package ru.yandex.qatools.processors.matcher.gen.processing;
 
+import ru.yandex.qatools.processors.matcher.gen.annotations.DoNotGenerateMatcher;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
 import ru.yandex.qatools.processors.matcher.gen.util.helpers.GeneratorHelper;
 
@@ -45,7 +46,7 @@ public class FillMapWithFieldsProcess implements Consumer<Element> {
     public void accept(Element elem) {
         ElementKind elemKind = elem.getKind();
 
-        if (elemKind == ElementKind.FIELD) {
+        if (elemKind == ElementKind.FIELD && elem.getAnnotation(DoNotGenerateMatcher.class) == null) {
             TypeElement classElement = (TypeElement) elem.getEnclosingElement();
             PackageElement packageElement = (PackageElement) classElement.getEnclosingElement();
 
