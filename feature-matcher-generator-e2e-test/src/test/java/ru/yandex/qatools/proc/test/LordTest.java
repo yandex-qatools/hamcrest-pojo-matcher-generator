@@ -10,6 +10,8 @@ import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.IsNot.not;
 
 /**
  * @author Vladislav Bauer
@@ -26,7 +28,7 @@ public class LordTest {
     public void shouldFindMatchersForAllField() throws Exception {
         assertThat(
                 Stream.of(LordMatchers.class.getDeclaredMethods()).map(Method::getName).collect(toList()), 
-                hasItems("withName", "withSlavesCount")
+                allOf(hasItems("withName", "withSlavesCount"), not(hasItems("withFullName", "withAge")))
         );
         assertThat(LordMatchers.class.getDeclaredMethod("withName", Matcher.class), notNullValue());
         assertThat(LordMatchers.class.getDeclaredMethod("withSlavesCount", Matcher.class), notNullValue());
