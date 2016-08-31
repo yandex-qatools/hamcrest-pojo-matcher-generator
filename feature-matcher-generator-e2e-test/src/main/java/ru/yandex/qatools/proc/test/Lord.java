@@ -9,9 +9,15 @@ import ru.yandex.qatools.processors.matcher.gen.annotations.GenerateMatcher;
 
 @GenerateMatcher
 public class Lord {
-    @DoNotGenerateMatcher
     private String name;
     private Integer slavesCount;
+
+    @DoNotGenerateMatcher
+    private String fullName;
+
+    @GenerateMatcher
+    @DoNotGenerateMatcher
+    private Integer age;
 
 
     public String getName() {
@@ -22,4 +28,11 @@ public class Lord {
         return slavesCount;
     }
 
+    public Object getFullName() {
+        return fullName;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
 }

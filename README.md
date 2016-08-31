@@ -30,6 +30,8 @@ public class Owner {
     private String email;
     @GenerateMatcher
     private String uid;
+    @DoNotGenerateMatcher // excludes field from generation of matchers for class level @GenerateMatcher annotation
+    private String name;
 
     public String getEmail() {
         return email;
