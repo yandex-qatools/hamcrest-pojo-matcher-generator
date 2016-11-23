@@ -44,21 +44,29 @@ public class FillMapWithFieldsProcess implements Consumer<Element> {
      */
     @Override
     public void accept(Element elem) {
-        ElementKind elemKind = elem.getKind();
+        try {
+            ElementKind elemKind = elem.getKind();
 
-        if (elemKind == ElementKind.FIELD && elem.getAnnotation(DoNotGenerateMatcher.class) == null) {
-            TypeElement classElement = (TypeElement) elem.getEnclosingElement();
-            PackageElement packageElement = (PackageElement) classElement.getEnclosingElement();
+            if (elemKind == ElementKind.FIELD && elem.getAnnotation(DoNotGenerateMatcher.class) == null) {
+                TypeElement classElement = (TypeElement) elem.getEnclosingElement();
+                PackageElement packageElement = (PackageElement) classElement.getEnclosingElement();
 
-            ClassDescription classDescription = byClassFrom(classes,
-                    packageElement.getQualifiedName(),
-                    classElement.getSimpleName());
+                ClassDescription classDescription = byClassFrom(classes,
+                        packageElement.getQualifiedName(),
+                        classElement.getSimpleName());
 
-            Name fieldName = elem.getSimpleName();
-            String fieldType = helper.getWrappedType(elem).toString();
-            classDescription.addField(field(fieldName, fieldType));
-        } else if (elemKind == ElementKind.CLASS) {
-            elem.getEnclosedElements().forEach(this::accept);
+                Name fieldName = elem.getSimpleName();
+                String fieldType = helper.getWrappedType(elem).toString();
+                classDescription.addField(field(fieldName, fieldType));
+            } else if (elemKind == ElementKind.CLASS) {
+                elem.getEnclosedElements().forEach(this::accept);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(String.format(
+                    "Exception during processing of '%s' of kind '%s'",
+                    elem.getSimpleName(),
+                    elem.getKind()
+            ), e);
         }
     }
 
