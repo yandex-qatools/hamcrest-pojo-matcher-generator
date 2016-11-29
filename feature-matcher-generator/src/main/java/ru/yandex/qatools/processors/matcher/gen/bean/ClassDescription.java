@@ -13,15 +13,22 @@ import java.util.Set;
  */
 public class ClassDescription {
 
-    private CharSequence packageName;
-    private CharSequence name;
+    private final CharSequence packageName;
+    private final CharSequence name;
+    private final CharSequence qualifiedName;
 
     private Set<FieldDescription> fields = new LinkedHashSet<>();
 
-
-    public ClassDescription(CharSequence packageName, CharSequence name) {
+    public ClassDescription(CharSequence packageName, CharSequence className) {
         this.packageName = packageName;
-        this.name = name;
+        this.name = className;
+        this.qualifiedName = packageName + "." + className;
+    }
+
+    public ClassDescription(CharSequence packageName, CharSequence className, CharSequence qualifiedName) {
+        this.qualifiedName = qualifiedName;
+        this.packageName = packageName;
+        this.name = className;
     }
 
     public String packageName() {
@@ -30,6 +37,14 @@ public class ClassDescription {
 
     public String name() {
         return String.valueOf(name);
+    }
+
+    /**
+     * @return Full name of class including package name, owner classes names
+     * (in case of multiple nested classes) and class' own name
+     */
+    public CharSequence qualifiedName() {
+        return qualifiedName;
     }
 
     public Collection<FieldDescription> fields() {

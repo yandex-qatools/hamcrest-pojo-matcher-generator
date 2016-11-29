@@ -6,9 +6,7 @@ import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
 import ru.yandex.qatools.processors.matcher.gen.processing.utils.TestObjFactory;
 import ru.yandex.qatools.processors.matcher.gen.util.helpers.GeneratorHelper;
@@ -120,6 +118,9 @@ public class FillMapWithFieldsProcessTest {
         when(type.getSimpleName())
                 .thenReturn(TestObjFactory.name(SIMPLE_ENCLOSING_CLASS_NAME))
                 .thenReturn(TestObjFactory.name(SIMPLE_ENCLOSING_CLASS_NAME_2));
+        when(type.getQualifiedName())
+                .thenReturn(TestObjFactory.name(QUALIFIED_PACKAGE_NAME + "." + SIMPLE_ENCLOSING_CLASS_NAME))
+                .thenReturn(TestObjFactory.name(QUALIFIED_PACKAGE_NAME + "." + SIMPLE_ENCLOSING_CLASS_NAME_2));
 
         process.accept(field1);
         process.accept(field2);
