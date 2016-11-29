@@ -40,9 +40,6 @@ public class FillMapWithFieldsProcess implements Consumer<Element> {
         while(!(enclosingElement instanceof PackageElement)) {
             enclosingElement = enclosingElement.getEnclosingElement();
         }
-//        do {
-//            enclosingElement = enclosingElement.getEnclosingElement();
-//        } while(!(enclosingElement instanceof PackageElement));
         return ((PackageElement) enclosingElement).getQualifiedName();
     }
 
@@ -73,11 +70,12 @@ public class FillMapWithFieldsProcess implements Consumer<Element> {
                 elem.getEnclosedElements().forEach(this::accept);
             }
         } catch (Exception e) {
-            throw new RuntimeException(String.format(
+            throw new ProcessingException(
                     "Exception during processing of '%s' of kind '%s'",
                     elem.getSimpleName(),
-                    elem.getKind()
-            ), e);
+                    elem.getKind(),
+                    e
+            );
         }
     }
 
