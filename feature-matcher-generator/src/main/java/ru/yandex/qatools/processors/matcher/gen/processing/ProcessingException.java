@@ -8,13 +8,8 @@ import javax.lang.model.element.Name;
  */
 public class ProcessingException extends RuntimeException {
 
-    private final Name targetElementSimpleName;
-    private final ElementKind targetElementKind;
-
     public ProcessingException(String message, Name simpleName, ElementKind kind, Exception cause) {
         super(String.format(message, simpleName, kind), cause);
-        this.targetElementSimpleName = simpleName;
-        this.targetElementKind = kind;
     }
 
 }
