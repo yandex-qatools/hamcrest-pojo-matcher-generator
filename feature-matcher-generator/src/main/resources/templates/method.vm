@@ -1,12 +1,12 @@
 
     /**
-     * Matcher for {@link ${type.packageName()}.${type.name()}#${field.name()}}
+     * Matcher for {@link ${type.qualifiedName()}#${field.name()}}
      */
     @org.hamcrest.Factory
-    public static org.hamcrest.Matcher<${type.packageName()}.${type.name()}> with${utils.normalize(${field.name()})}(org.hamcrest.Matcher<${field.type()}> matcher) {
-        return new org.hamcrest.FeatureMatcher<${type.packageName()}.${type.name()}, ${field.type()}>(matcher, "${field.name()}", "${field.name()}") {
+    public static org.hamcrest.Matcher<${type.qualifiedName()}> with${utils.normalize(${field.name()})}(org.hamcrest.Matcher<${field.type()}> matcher) {
+        return new org.hamcrest.FeatureMatcher<${type.qualifiedName()}, ${field.type()}>(matcher, "${field.name()}", "${field.name()}") {
             @Override
-            protected ${field.type()} featureValueOf(${type.packageName()}.${type.name()} actual) {
+            protected ${field.type()} featureValueOf(${type.qualifiedName()} actual) {
                 return actual.get${utils.normalize(${field.name()})}();
             }
         };

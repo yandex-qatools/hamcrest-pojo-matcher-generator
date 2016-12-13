@@ -11,10 +11,8 @@ import java.io.Writer;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.joining;
 
 /**
  * User: lanwen
@@ -60,7 +58,7 @@ public class ClassDescriptionProcessing implements Consumer<ClassDescription> {
         try {
             JavaFileObject jfo = filer
                     .createSourceFile(GenUtils.withGeneratedSuffix(
-                            Stream.of(from.packageName(), from.name()).collect(joining("."))));
+                            from.qualifiedName().toString()));
 
             try (Writer writer = jfo.openWriter()) {
                 engine.getTemplate(CLASS_TEMPLATE).merge(context, writer);
