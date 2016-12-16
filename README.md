@@ -15,7 +15,7 @@ Useful for testing auto-generated unmarshalled beans with help of
 <dependency>
     <groupId>ru.yandex.qatools.processors</groupId>
     <artifactId>feature-matcher-generator</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
     <!-- 'provided' scope because this is only needed during compilation -->
     <scope>provided</scope>
 </dependency>
