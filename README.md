@@ -96,6 +96,62 @@ assertThat(someOwner, withEmail(containsString("@")));
 assertThat(someOwner, both(withEmail(containsString("@"))).and(withUid(is(uid))); 
 ```
 
+### How to produce matchers in test scope for JAXB generated classes
+
+There are 2 ways:
+
+1. Generate as usually in separate module and just add as dependency in `test` scope
+2. Generate all classes as test sources.
+
+#### Generating JAXB classes and matchers as test sources
+
+1. Add one more execution for `maven-jaxb2-plugin`:
+
+  ```xml
+  <execution>
+      <id>test</id>
+      <phase>process-test-sources</phase>
+      <goals>
+          <goal>generate</goal>
+      </goals>
+      <configuration>
+          <generateDirectory>target/generated-test-sources/xjc</generateDirectory>
+          <addCompileSourceRoot>false</addCompileSourceRoot>
+          <addTestCompileSourceRoot>true</addTestCompileSourceRoot>
+          <args>
+            <!--bunch of plugins that can be different from original configuration-->
+            <arg>-enableIntrospection</arg>
+            <arg>-no-header</arg>
+            <arg>-Xxew</arg>
+            <arg>-Xxew:instantiate lazy</arg>
+            <arg>-Xfluent-api</arg>
+            <arg>-Xinheritance</arg>
+            <arg>-Xannotate</arg>
+            <arg>-Xvalue-constructor</arg>
+            <arg>-Xequals</arg> <!--in tests it will be useful to have to strings, equals...-->
+            <arg>-XhashCode</arg>
+            <arg>-XtoString</arg>
+           </args>
+        </configuration>
+  </execution>
+  ```
+
+2. If  you want to add `toString`, `equals` etc methods, don't forget to add also dependency to test scope: 
+
+  ```xml
+  <dependency>
+      <groupId>org.jvnet.jaxb2_commons</groupId>
+      <artifactId>jaxb2-basics</artifactId>
+      <scope>test</scope>
+  </dependency>
+  ```
+
+3. Add dependency to annotaion processor to `<scope>test</scope>`
+4. Add `matchers.gen.properties` file to `src/test/resources/` with content:
+
+  ```
+  matcher.gen.annotations=javax.xml.bind.annotation.XmlElement
+  ```
 
 ### How to debug Annotation Processors
 
