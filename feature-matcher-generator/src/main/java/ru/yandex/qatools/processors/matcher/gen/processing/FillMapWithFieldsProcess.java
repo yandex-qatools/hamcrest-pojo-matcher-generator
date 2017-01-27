@@ -95,8 +95,7 @@ public class FillMapWithFieldsProcess implements Consumer<Element> {
             CharSequence name,
             CharSequence qualifiedName
     ) {
-        map.putIfAbsent(qualifiedName, new ClassDescription(packageName, name, qualifiedName));
-        return map.get(qualifiedName);
+        return map.computeIfAbsent(qualifiedName, qname -> new ClassDescription(packageName, name, qname));
     }
 
     /**
