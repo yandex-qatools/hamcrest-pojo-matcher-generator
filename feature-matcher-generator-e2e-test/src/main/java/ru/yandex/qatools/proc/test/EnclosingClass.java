@@ -5,21 +5,21 @@ import ru.yandex.qatools.processors.matcher.gen.annotations.GenerateMatcher;
 @GenerateMatcher
 public class EnclosingClass {
 
-    private StaticNestedClass1 staticNestedObject1;
+    private StaticNestedClass staticNested;
 
-    public StaticNestedClass1 getStaticNestedObject1() {
-        return staticNestedObject1;
+    public StaticNestedClass getStaticNested() {
+        return staticNested;
     }
 
-    public static class StaticNestedClass1 {
+    public static class StaticNestedClass {
 
-        private StaticNestedClass2 staticNestedObject2;
+        private StaticNestedForStaticNestedClass staticNestedTwice;
 
-        public StaticNestedClass2 getStaticNestedObject2() {
-            return staticNestedObject2;
+        public StaticNestedForStaticNestedClass getStaticNestedTwice() {
+            return staticNestedTwice;
         }
 
-        public class StaticNestedClass2 {
+        public class StaticNestedForStaticNestedClass {
 
             int variable;
 
