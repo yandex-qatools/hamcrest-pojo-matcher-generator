@@ -45,7 +45,6 @@ public class ClassDescriptionProcessing implements Consumer<ClassDescription> {
      *
      * @param from - bean to write as matcher class
      *
-     * @return null
      * @see ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription
      */
     @Override

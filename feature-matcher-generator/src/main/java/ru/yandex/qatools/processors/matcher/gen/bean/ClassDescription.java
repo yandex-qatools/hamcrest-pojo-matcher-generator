@@ -18,6 +18,7 @@ public class ClassDescription {
     private final CharSequence qualifiedName;
 
     private Set<FieldDescription> fields = new LinkedHashSet<>();
+    private Set<ClassDescription> children = new LinkedHashSet<>();
 
     public ClassDescription(CharSequence packageName, CharSequence className) {
         this.packageName = packageName;
@@ -50,8 +51,15 @@ public class ClassDescription {
     public Collection<FieldDescription> fields() {
         return fields;
     }
+    public Collection<ClassDescription> children() {
+        return children;
+    }
 
     public void addField(FieldDescription field) {
         fields().add(field);
+    }
+
+    public void addChild(ClassDescription nested) {
+        children().add(nested);
     }
 }

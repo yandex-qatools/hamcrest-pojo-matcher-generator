@@ -169,3 +169,7 @@ There are 2 ways:
 3. Click on `"Debug 'annotation-processors'"`
 
 It will create a new launcher configuration which can be used to debug project.
+
+### NOTE
+
+Not supported: `EmptyClass -> EmptyStaticNested -> StaticNestedWithFields`
