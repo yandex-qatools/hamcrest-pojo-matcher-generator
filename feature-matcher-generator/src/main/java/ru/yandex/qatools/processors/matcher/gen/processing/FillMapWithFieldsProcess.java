@@ -1,17 +1,16 @@
 package ru.yandex.qatools.processors.matcher.gen.processing;
 
-import ru.yandex.qatools.processors.matcher.gen.annotations.DoNotGenerateMatcher;
 import ru.yandex.qatools.processors.matcher.gen.bean.ClassDescription;
 import ru.yandex.qatools.processors.matcher.gen.util.helpers.GeneratorHelper;
 
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import static ru.yandex.qatools.processors.matcher.gen.bean.FieldDescription.field;
@@ -35,14 +34,6 @@ public class FillMapWithFieldsProcess implements Consumer<Element> {
         return new FillMapWithFieldsProcess(helper);
     }
 
-    private CharSequence getPackageNameOf(TypeElement classElement) {
-        Element enclosingElement = classElement;
-        while(!(enclosingElement instanceof PackageElement)) {
-            enclosingElement = enclosingElement.getEnclosingElement();
-        }
-        return ((PackageElement) enclosingElement).getQualifiedName();
-    }
-
     /**
      * Fills map of classes with each new field. Merges existing classes with new fields,
      * create new classes if field from new class
@@ -52,22 +43,27 @@ public class FillMapWithFieldsProcess implements Consumer<Element> {
     @Override
     public void accept(Element elem) {
         try {
-            ElementKind elemKind = elem.getKind();
+            switch (elem.getKind()) {
+                case FIELD: {
+                    TypeElement classElement = (TypeElement) elem.getEnclosingElement();
 
-            if (elemKind == ElementKind.FIELD && elem.getAnnotation(DoNotGenerateMatcher.class) == null) {
-                TypeElement classElement = (TypeElement) elem.getEnclosingElement();
+                    ClassDescription classDescription = byClassFrom(classes,
+                            getPackageNameOf(classElement),
+                            classElement.getSimpleName(),
+                            classElement.getQualifiedName()
+                    );
 
-                ClassDescription classDescription = byClassFrom(classes,
-                        getPackageNameOf(classElement),
-                        classElement.getSimpleName(),
-                        classElement.getQualifiedName()
-                );
+                    Name fieldName = elem.getSimpleName();
+                    String fieldType = helper.getWrappedType(elem).toString();
+                    classDescription.addField(field(fieldName, fieldType));
 
-                Name fieldName = elem.getSimpleName();
-                String fieldType = helper.getWrappedType(elem).toString();
-                classDescription.addField(field(fieldName, fieldType));
-            } else if (elemKind == ElementKind.CLASS) {
-                elem.getEnclosedElements().forEach(this::accept);
+                    break;
+                }
+
+                case CLASS: {
+                    elem.getEnclosedElements().forEach(this::accept);
+                    break;
+                }
             }
         } catch (Exception e) {
             throw new ProcessingException(
@@ -79,14 +75,22 @@ public class FillMapWithFieldsProcess implements Consumer<Element> {
         }
     }
 
+    private CharSequence getPackageNameOf(TypeElement classElement) {
+        Element enclosingElement = classElement.getEnclosingElement();
+        if (enclosingElement instanceof PackageElement) {
+            return ((PackageElement) enclosingElement).getQualifiedName();
+        }
+
+        return null;
+    }
+
     /**
      * Get class description bean from map. If no such, creates a new one
      *
-     * @param map         to find a bean
-     * @param packageName package of target class
-     * @param name        simple name of target class
+     * @param map           to find a bean
+     * @param packageName   package of target class
+     * @param name          simple name of target class
      * @param qualifiedName full name of target class (package + owner classes + simple name)
-     *
      * @return ClassDescription bean to add new field
      */
     private ClassDescription byClassFrom(
