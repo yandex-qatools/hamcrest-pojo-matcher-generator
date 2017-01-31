@@ -150,7 +150,6 @@ public class MatcherFactoryGenerator extends AbstractProcessor {
                         return new ClassSpecDescription(builder.build());
                     }));
 
-            //TODO если нестед внутри пустого класса без полей
             Comparator<Map.Entry<Element, ClassSpecDescription>> comparing = Comparator.comparing(entry -> depth(entry.getKey()));
             classSpecs.entrySet()
                     .stream()
