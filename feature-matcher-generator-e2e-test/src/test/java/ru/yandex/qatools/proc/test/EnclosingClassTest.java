@@ -20,27 +20,27 @@ public class EnclosingClassTest {
                 Stream.of(EnclosingClassMatchers.class.getDeclaredMethods())
                         .map(Method::getName)
                         .collect(Collectors.toList()),
-                hasItems("withStaticNestedObject1")
+                hasItems("withStaticNested")
         );
     }
 
     @Test
     public void shouldHaveMatcherForStaticNestedClass2() throws Exception {
         assertThat(
-                Stream.of(StaticNestedClass1Matchers.class.getDeclaredMethods())
+                Stream.of(EnclosingClassMatchers.StaticNestedClassMatchers.class.getDeclaredMethods())
                         .map(Method::getName)
                         .collect(Collectors.toList()),
-                hasItems("withStaticNestedObject2")
+                hasItems("withStaticNestedTwice")
         );
     }
 
     @Test
     public void shouldVariableMatcher() throws Exception {
         assertThat(
-                Stream.of(StaticNestedClass2Matchers.class.getDeclaredMethods())
+                Stream.of(StaticNestedClassMatchers.class.getDeclaredMethods())
                         .map(Method::getName)
                         .collect(Collectors.toList()),
-                hasItems("withVariable")
+                hasItems("withUninteresting")
         );
     }
 
