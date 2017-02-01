@@ -1,5 +1,9 @@
 ## Hamcrest Feature Matcher Generator for POJOs
 
+[![release](http://github-release-version.herokuapp.com/github/yandex-qatools/hamcrest-pojo-matcher-generator/release.svg?style=flat)](https://github.com/yandex-qatools/hamcrest-pojo-matcher-generator/releases/latest)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/ru.yandex.qatools.processors/feature-matcher-generator/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/ru.yandex.qatools.processors/feature-matcher-generator)
+
+
 Inspired by lot of dummy work to create matchers for fields in auto-generated beans to write POJO-based tests. 
 
 Generates [Hamcrest](http://hamcrest.org/JavaHamcrest/)'s [Feature Matchers](http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/FeatureMatcher.html) 
@@ -15,7 +19,7 @@ Useful for testing auto-generated unmarshalled beans with help of
 <dependency>
     <groupId>ru.yandex.qatools.processors</groupId>
     <artifactId>feature-matcher-generator</artifactId>
-    <version>1.3</version>
+    <version>2.0.0</version>
     <!-- 'provided' scope because this is only needed during compilation -->
     <scope>provided</scope>
 </dependency>
