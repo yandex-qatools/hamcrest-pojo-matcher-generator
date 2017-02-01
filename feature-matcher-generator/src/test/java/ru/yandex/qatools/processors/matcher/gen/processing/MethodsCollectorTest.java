@@ -31,9 +31,10 @@ public class MethodsCollectorTest {
     @Test
     public void shouldCollectFields() throws Exception {
         TypeElement withFields = compilation.getElements().getTypeElement(WithSomeFields.class.getCanonicalName());
-        LinkedList<Element> fields = compilation.getElements().getAllMembers(withFields).stream()
+        LinkedList<Element> fields = new LinkedList<>(compilation.getElements().getAllMembers(withFields).stream()
                 .filter(ofKind(ElementKind.FIELD))
-                .collect(toCollection(LinkedList::new));
+                .map(elem -> (Element) elem)
+                .collect(toList()));
 
         ClassSpecDescription apply = collectingMethods().finisher().apply(fields);
 

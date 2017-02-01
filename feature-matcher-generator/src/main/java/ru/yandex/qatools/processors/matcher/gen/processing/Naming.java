@@ -1,7 +1,5 @@
 package ru.yandex.qatools.processors.matcher.gen.processing;
 
-import javax.lang.model.element.Name;
-
 /**
  * To simplify some string operations
  *
