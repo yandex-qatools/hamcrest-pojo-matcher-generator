@@ -1,7 +1,8 @@
 package ru.yandex.qatools.processors.matcher.gen.processing;
 
 import org.junit.Test;
-import ru.yandex.qatools.processors.matcher.gen.util.GenUtils;
+
+import javax.lang.model.element.Name;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Date: 19.10.14
  * Time: 21:18
  */
-public class GenUtilsTest {
+public class NamingTest {
 
     /**
      * If add 'get' to field _class with ignoring first underscore we got getClass().
@@ -19,11 +20,11 @@ public class GenUtilsTest {
      */
     @Test
     public void shouldAvoidGetClassMethodCollisions() throws Exception {
-        assertThat(GenUtils.normalize("_class"), equalTo("Class_"));
+        assertThat(Naming.normalize("_class"), equalTo("Class_"));
     }
 
     @Test
     public void shouldIgnoreUnderscoresInBeginning() throws Exception {
-        assertThat(GenUtils.normalize("_public"), equalTo("Public"));
+        assertThat(Naming.normalize("_public"), equalTo("Public"));
     }
 }

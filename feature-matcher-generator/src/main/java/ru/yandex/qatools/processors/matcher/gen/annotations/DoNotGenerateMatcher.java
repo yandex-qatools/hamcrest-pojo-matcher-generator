@@ -6,13 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * User: lanwen
- * Date: 23.10.14
- * Time: 0:25
+ * Don't generate matchers for annotated field/class
  *
- * Not used anywhere by now
+ * @author lanwen (Merkushev Kirill)
  */
 @Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.TYPE})
 public @interface DoNotGenerateMatcher {
 }
