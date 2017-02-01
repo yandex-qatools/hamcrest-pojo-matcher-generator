@@ -9,6 +9,10 @@ import ru.yandex.qatools.processors.matcher.gen.annotations.GenerateMatcher;
 
 @GenerateMatcher
 public class Lord {
+
+//    #18
+//    public static final String WEAPON = "Sword";
+
     private String name;
     private Integer slavesCount;
 

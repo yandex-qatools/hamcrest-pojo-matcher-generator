@@ -48,7 +48,7 @@ public class MatcherFactoryGeneratorTest {
         @Override
         protected void before() throws Throwable {
             when(env.processingOver()).thenReturn(false);
-            when(env.getElementsAnnotatedWith(any(Class.class))).thenReturn((Set) new HashSet<Element>());
+            when(env.getElementsAnnotatedWith(any(Class.class))).thenReturn(new HashSet<Element>());
             when(prenv.getElementUtils()).thenReturn(elements);
 
 

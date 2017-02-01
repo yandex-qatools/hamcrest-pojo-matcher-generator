@@ -11,6 +11,7 @@ import ru.yandex.qatools.processors.matcher.gen.annotations.GenerateMatcher;
 public class Mob {
 
     private byte valByte;
+    private byte[] valByteArr;
     private Byte valueByte;
 
     private char valChar;
@@ -88,4 +89,8 @@ public class Mob {
         return valueBoolean;
     }
 
+    public byte[] getValByteArr() {
+        return valByteArr;
+    }
 }
+
