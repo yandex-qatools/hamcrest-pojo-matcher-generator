@@ -45,11 +45,6 @@ public class MatcherFactoryGenerator extends AbstractProcessor {
     }
 
     @Override
-    public synchronized void init(ProcessingEnvironment processingEnv) {
-        this.processingEnv = processingEnv;
-    }
-
-    @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         try {
 
