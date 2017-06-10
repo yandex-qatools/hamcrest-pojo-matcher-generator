@@ -18,6 +18,7 @@ import javax.lang.model.element.Modifier;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
@@ -141,14 +142,28 @@ public class MethodsCollector implements Collector<Element, LinkedList<Element>,
                                                     .addParameter(ownerType, "actual")
                                                     .returns(fieldType)
                                                     .addStatement(
-                                                            "return $L.get$L()",
+                                                            "return $L.$L()",
                                                             "actual",
-                                                            Naming.normalize(field.getSimpleName())
+                                                            getGetterName(field)
                                                     )
                                                     .build()
                                     ).build()
                     )
                     .build();
         };
+    }
+
+    private static String getGetterName(Element field) {
+        String caseInsensitiveGetterName = "get" + field.getSimpleName();
+        
+        return field.getEnclosingElement().getEnclosedElements().stream()
+                .filter(elem -> elem.getSimpleName().toString().equalsIgnoreCase(caseInsensitiveGetterName))
+                .findAny()
+                .orElseThrow(() -> new NoSuchElementException(
+                        "cannot find getter for " + field.getSimpleName() + " on class " +
+                                field.getEnclosingElement().getSimpleName())
+                )
+                .getSimpleName()
+                .toString();
     }
 }
