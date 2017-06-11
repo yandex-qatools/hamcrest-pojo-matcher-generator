@@ -8,4 +8,25 @@ public class WithSomeFields {
     byte[] bytes;
     String str;
     Integer integer;
+    String lower;
+
+    int getValue() {
+        return value;
+    }
+
+    byte[] getBytes() {
+        return bytes;
+    }
+
+    String getStr() {
+        return str;
+    }
+
+    Integer getInteger() {
+        return integer;
+    }
+
+    String getLOWER() {
+        return lower;
+    }
 }
